@@ -1,0 +1,7 @@
+# scratch and raw dumps stay out of the public record
+scratch/
+*.log
+*.pid
+*.err
+.DS_Store
+node_modules/

@@ -1,0 +1,14 @@
+# Excerpts from Ollama 0.35.1 server logs, 2026-10-03 (local paths and device key removed)
+
+## Default start (tray app): ROCm selected for gfx1201 on Windows
+time=2026-10-03T21:23:40.099-04:00 level=INFO source=types.go:32 msg="inference compute" id=0 filter_id=0 library=ROCm compute=gfx1201 name=ROCm0 description="AMD Radeon RX 9070 XT" libdirs=ollama,rocm_v7_1 driver=0.0 pci_id=0000:03:00.0 type=discrete total="15.9 GiB" available="15.8 GiB"
+time=2026-10-03T21:23:40.099-04:00 level=INFO source=routes.go:2227 msg="vram-based default context" total_vram="15.9 GiB" default_num_ctx=4096
+
+## Vulkan start: OLLAMA_LLM_LIBRARY=vulkan OLLAMA_VULKAN=1 HIP_VISIBLE_DEVICES=-1 ollama serve
+time=2026-10-03T21:50:14.112-04:00 level=INFO source=types.go:32 msg="inference compute" id=0 filter_id=0 library=Vulkan compute=0.0 name=Vulkan0 description="AMD Radeon RX 9070 XT" libdirs=ollama,vulkan driver=0.0 pci_id="" type=discrete total="15.9 GiB" available="15.1 GiB"
+time=2026-10-03T21:50:14.112-04:00 level=INFO source=routes.go:2227 msg="vram-based default context" total_vram="15.9 GiB" default_num_ctx=4096
+load_tensors: offloaded 37/37 layers to GPU
+
+## ROCm offload
+Full-offload line for the ROCm run was not captured to file. Evidence of full GPU residency is the
+/api/ps reading recorded per run in bench-rocm.jsonl (gpu_pct: 100, vram_gb: 9.97).

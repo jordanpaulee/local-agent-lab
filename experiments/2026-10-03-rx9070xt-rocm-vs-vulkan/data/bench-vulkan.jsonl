@@ -1,0 +1,6 @@
+{"label":"vulkan","model":"qwen3:8b","test":"short","run":1,"http":200,"error":null,"prompt_tokens":39,"gen_tokens":256,"prefill_tok_s":781,"gen_tok_s":101.3,"load_s":0,"total_s":2.63,"vram_gb":9.95,"gpu_pct":100,"ctx":32768}
+{"label":"vulkan","model":"qwen3:8b","test":"short","run":2,"http":200,"error":null,"prompt_tokens":39,"gen_tokens":244,"prefill_tok_s":821.8,"gen_tok_s":102.5,"load_s":0,"total_s":2.48,"vram_gb":9.95,"gpu_pct":100,"ctx":32768}
+{"label":"vulkan","model":"qwen3:8b","test":"short","run":3,"http":200,"error":null,"prompt_tokens":39,"gen_tokens":256,"prefill_tok_s":763.4,"gen_tok_s":102,"load_s":0,"total_s":2.6,"vram_gb":9.95,"gpu_pct":100,"ctx":32768}
+{"label":"vulkan","model":"qwen3:8b","test":"long13k","run":1,"http":200,"error":null,"prompt_tokens":12952,"gen_tokens":23,"prefill_tok_s":1216,"gen_tok_s":79.1,"load_s":0,"total_s":11.61,"vram_gb":9.95,"gpu_pct":100,"ctx":32768}
+{"label":"vulkan","model":"qwen3:8b","test":"long13k","run":2,"http":200,"error":null,"prompt_tokens":12952,"gen_tokens":43,"prefill_tok_s":1223.3,"gen_tok_s":77.6,"load_s":0,"total_s":11.74,"vram_gb":9.95,"gpu_pct":100,"ctx":32768}
+{"label":"vulkan","model":"qwen3:8b","test":"long13k","run":3,"http":200,"error":null,"prompt_tokens":12952,"gen_tokens":43,"prefill_tok_s":1175.7,"gen_tok_s":76.6,"load_s":0,"total_s":12.25,"vram_gb":9.95,"gpu_pct":100,"ctx":32768}

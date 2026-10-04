@@ -1,0 +1,6 @@
+{"label":"rocm","model":"qwen3:8b","test":"short","run":1,"http":200,"error":null,"prompt_tokens":39,"gen_tokens":245,"prefill_tok_s":1336.3,"gen_tok_s":96.3,"load_s":0,"total_s":2.62,"vram_gb":9.97,"gpu_pct":100,"ctx":32768}
+{"label":"rocm","model":"qwen3:8b","test":"short","run":2,"http":200,"error":null,"prompt_tokens":39,"gen_tokens":243,"prefill_tok_s":1344.4,"gen_tok_s":96.7,"load_s":0,"total_s":2.59,"vram_gb":9.97,"gpu_pct":100,"ctx":32768}
+{"label":"rocm","model":"qwen3:8b","test":"short","run":3,"http":200,"error":null,"prompt_tokens":39,"gen_tokens":256,"prefill_tok_s":1314.6,"gen_tok_s":97,"load_s":0,"total_s":2.71,"vram_gb":9.97,"gpu_pct":100,"ctx":32768}
+{"label":"rocm","model":"qwen3:8b","test":"long13k","run":1,"http":200,"error":null,"prompt_tokens":12952,"gen_tokens":27,"prefill_tok_s":3139.8,"gen_tok_s":76.8,"load_s":0,"total_s":5.48,"vram_gb":9.97,"gpu_pct":100,"ctx":32768}
+{"label":"rocm","model":"qwen3:8b","test":"long13k","run":2,"http":200,"error":null,"prompt_tokens":12952,"gen_tokens":43,"prefill_tok_s":3141.6,"gen_tok_s":75.5,"load_s":0,"total_s":5.76,"vram_gb":9.97,"gpu_pct":100,"ctx":32768}
+{"label":"rocm","model":"qwen3:8b","test":"long13k","run":3,"http":200,"error":null,"prompt_tokens":12952,"gen_tokens":43,"prefill_tok_s":3138.6,"gen_tok_s":75.4,"load_s":0,"total_s":5.92,"vram_gb":9.97,"gpu_pct":100,"ctx":32768}
