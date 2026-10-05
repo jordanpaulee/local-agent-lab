@@ -71,5 +71,6 @@ StarNet's agent prompt is far larger than Ollama's default context, and Ollama t
 ## Next step
 
 - Done: [comment on #20](https://github.com/androoAGI/starnet/issues/20#issuecomment-5997806336) with the before/after numbers. Watch for the maintainer closing it.
-- A separate, unreported issue surfaced in the same data: qwen3:8b can't pass StarNet's Task Brief gate (first write
-  refused in 30/30 file tasks on v0.13.0; two runs report success with no file written). See the experiment's next steps and BACKLOG #7.
+- A separate pattern surfaced in the same data: StarNet's Task Brief gate refused qwen3:8b's first write in 30/30 file
+  tasks on v0.13.0. Traced 2026-10-05: the gate works as designed, and the failures are model planning. Not filed. See
+  the experiment's [Task Brief gate trace](../../experiments/2026-10-03-starnet-qwen3-8b-context-length/#task-brief-gate-trace).

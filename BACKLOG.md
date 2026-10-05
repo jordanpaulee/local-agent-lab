@@ -11,10 +11,10 @@ Status: `idea → repro → filed → PR → merged`, or `dropped`. Search exist
 | 1 | ollama #18528 → llama.cpp #29092 | qwen3.5-family hybrid GDN models leak recurrent state across requests on ROCm | Blocks stronger qwen3.5:9b-class workers on the fastest backend here | Report is gfx1151; need a gfx1201 repro | idea |
 | 2 | ollama #17347 | Quantized KV cache on qwen35 arch under ROCm stops instead of emitting a tool call | Blocks q8 KV (more context per GB) | none yet | idea (only if we adopt qwen3.5) |
 | 3 | ollama #16383 | qwen3.5 tool parser returns HTTP 500 on template drift | Tool-call reliability for qwen3.5 workers; Go parser code, approachable | none yet | idea (check in eval) |
-| 4 | ollama `docs/gpu.mdx` | Docs say RX 9070 XT ROCm is Linux-only; 0.35.1 on Windows runs it fully offloaded | Steers RDNA4 Windows users to Vulkan (2.6× slower prefill) | [rocm-vs-vulkan](experiments/2026-10-03-rx9070xt-rocm-vs-vulkan/) | repro (easy first PR) |
+| 4 | ollama `docs/gpu.mdx` | Docs say RX 9070 XT ROCm is Linux-only; 0.35.1 on Windows runs it fully offloaded | Steers RDNA4 Windows users to Vulkan (2.6× slower prefill) | [rocm-vs-vulkan](experiments/2026-10-03-rx9070xt-rocm-vs-vulkan/) | dropped as a PR (2026-10-05): ollama PR #18623 (open, by an AMD contributor) already adds the 9070 series to the Windows table; our run could back it as a tested-by comment |
 | 5 | StarNet #20 (Ollama provider) | v0.12.5 sent no `num_ctx` over `/v1`; Ollama's 4096 default cut the ~15k-token agent prompt to 2,050 tokens, silently | Was the cause of #20; file-tool use 0/30 → 30/30. Fixed upstream in v0.13.0 (`0e25b955f`, native `/api/chat` + `num_ctx`), verified here | [experiment](experiments/2026-10-03-starnet-qwen3-8b-context-length/), [investigation](investigations/2026-10-04-starnet-ollama-context-truncation/) | fixed upstream; [evidence posted on #20](https://github.com/androoAGI/starnet/issues/20#issuecomment-5997806336) |
 | 6 | StarNet readiness | `index.js:6595` drops `internal`, so onboarding calls count as user runs | Truthfulness bug; one field + test | [investigation](investigations/2026-10-03-starnet-readiness-counts-internal-runs/) | repro (parked) |
-| 7 | StarNet Task Brief gate × small local models | qwen3:8b never settles the Task Brief: first write refused in 30/30 file tasks on v0.13.0 (74 refusals); retries loop until the loop guard stops the run; 2/10 recover runs report success with no file written | Main remaining blocker for local workers after the #20 fix; no upstream issue | [experiment](experiments/2026-10-03-starnet-qwen3-8b-context-length/) (v0.13.0 data) | repro (trace `brief_*` calls before filing) |
+| 7 | StarNet Task Brief gate × small local models | First write refused in 30/30 file tasks on v0.13.0. Proxy logs show the gate working as designed: in t2/t4 the model makes one call hidden from the event stream (inferred `brief_*`) after the refusal, then succeeds. t3 failures are qwen3:8b batching `fs_write` + `fs_read` in one turn and repeating the pair until the loop guard stops it | Not a StarNet bug: a model-planning failure, costing one extra round trip when it works | [experiment](experiments/2026-10-03-starnet-qwen3-8b-context-length/#task-brief-gate-trace) | dropped (2026-10-05) |
 
 ## Writing ideas
 
@@ -26,7 +26,7 @@ Status: `idea → repro → filed → PR → merged`, or `dropped`. Search exist
 ## Open questions
 
 - Done 2026-10-04: [StarNet qwen3:8b 4k vs 32k, plus v0.13.0 verification](experiments/2026-10-03-starnet-qwen3-8b-context-length/). Still open from it:
-  the MCP task (blocked until the context server's transport and URL are known), and why qwen3:8b fails the Task Brief flow (#7).
+  the MCP task (blocked until the context server's transport and URL are known). The Task Brief question (#7) is answered: model planning, not a StarNet bug.
 - Process: before an eval against an active upstream, fetch right before running and check the default branch head and releases, not just issues.
 - Then: qwen3.5:9b on the same eval (StarNet ≥ v0.13.0), plus a cross-request state-leak check (#1).
 - Then: the same eval against a cloud model (baseline) and a 27B model on Apple Silicon. Observed but unmeasured:

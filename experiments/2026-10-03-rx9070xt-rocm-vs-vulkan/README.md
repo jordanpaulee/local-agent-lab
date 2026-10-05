@@ -89,4 +89,6 @@ agent prompts, so local models probably see a truncated prompt, which may explai
 making 0 tool calls. The next experiment is a StarNet tool-call reliability eval on qwen3:8b (ROCm) at 4k vs 32k server context. See
 [notes/starnet-headless-eval.md](../../notes/starnet-headless-eval.md) and [BACKLOG.md](../../BACKLOG.md).
 
-Also a candidate docs PR to Ollama (`docs/gpu.mdx`), using the log evidence above.
+Docs fix: not needed from us. Ollama PR [#18623](https://github.com/ollama/ollama/pull/18623) (open since 2026-09-24) adds
+gfx1200/gfx1201 cards to the Windows table, matching the `rocm_v7_1_windows` build targets. The 0.35.1 Windows install
+here ships gfx1200 and gfx1201 rocBLAS kernels, consistent with that PR.

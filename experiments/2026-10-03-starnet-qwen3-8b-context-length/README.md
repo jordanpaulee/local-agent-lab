@@ -113,9 +113,26 @@ Raw rows: [data/](data/). Run metadata: `meta-*.json`.
 - **CONFIRMED: the fix works on stock Ollama defaults.** With the server still at 4096, v0.13.0 requested 32768 itself:
   0/194 truncations, 30/30 file-tool use, 22/30 success. That's statistically indistinguishable from manually raising the
   server context (19/30) at this n.
-- **Remaining blocker for small local models: the Task Brief gate.** qwen3:8b never settles the brief before acting.
-  The `brief_*` calls don't appear in the event stream, so how the gate opens on some retries was **not traced**.
-  No upstream issue covers this.
+- **The Task Brief gate is not the bug; the remaining failures are model planning.** See the trace below.
+
+### Task Brief gate trace
+
+Done 2026-10-05 from the existing v0.13.0 proxy log (no new run). The proxy records each provider call's message roles
+and whether the response carried a tool call; StarNet's event stream hides `brief_*` calls. Comparing the two per trial
+(R = gate refusal, + = tool ok, x = tool error, in StarNet's visible order):
+
+- **t2 write, 10/10 `R+`.** Every trial has exactly one more tool-calling turn in the proxy than StarNet shows, between the
+  refusal and the successful write. The model settles the brief after one refusal; the gate opens as designed.
+- **t4 missing → create.** Same shape (`xR…+`): one hidden turn after the refusal, then success in 8/10.
+- **t3 write → read.** The proxy shows *fewer* tool-calling turns than StarNet shows calls: qwen3:8b sends `fs_write` and
+  `fs_read` in the same turn. The write is refused, the read fails on the missing file, and it repeats the pair
+  (`RxRxRx…`) without a separate brief call, until the loop guard ends the run (6/10 failed, 5 of them `error`).
+
+So the gate behaves as intended and costs one extra round trip when the model handles it. The t3 failures come from
+qwen3:8b's planning (batching a dependent read with a gated write), not from StarNet. **Not filed.**
+
+Limits: the proxy counts tool-calling turns, not calls, and logged no tool names, so "the hidden call is `brief_proceed`"
+is inferred. Some t3 runs are refused again after a success (`+R`); that's unexplained, and not pursued.
 
 ### Timeline: diagnosed independently, fixed upstream first
 
@@ -144,6 +161,6 @@ Pitfalls:
 ## Next step
 
 - Done: [before/after evidence posted on #20](https://github.com/androoAGI/starnet/issues/20#issuecomment-5997806336) (2026-10-05).
-- Trace the Task Brief failure: record `brief_*` tool calls from the provider responses, then decide whether it's an issue
-  ("small local models can't pass the Task Brief gate; two runs report success with no file written").
+- Done: [Task Brief gate trace](#task-brief-gate-trace) (2026-10-05): gate works as designed; dropped.
+- If this harness is reused: log tool names from provider responses in the proxy, so hidden calls are named, not inferred.
 - Repeat on qwen3.5:9b and a cloud baseline with the same harness.
