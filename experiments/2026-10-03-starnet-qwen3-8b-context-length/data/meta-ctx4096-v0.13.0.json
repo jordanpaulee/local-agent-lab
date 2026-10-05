@@ -1,0 +1,19 @@
+{
+  "ctx": 4096,
+  "model": "qwen3:8b",
+  "ollamaVersion": "0.35.1",
+  "loadedContext": 4096,
+  "sizeVramGB": 5.58,
+  "gpuPct": 100,
+  "starnetCommit": "6a4805361",
+  "node": "v22.23.2",
+  "trials": 10,
+  "tasks": [
+    "t1",
+    "t2",
+    "t3",
+    "t4"
+  ],
+  "startedAt": "2026-10-04T12:15:51.146Z",
+  "finishedAt": "2026-10-04T12:41:52.250Z"
+}

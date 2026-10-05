@@ -1,6 +1,7 @@
 #!/bin/sh
 # Block private infrastructure details from entering this public repo.
-pattern='C:\\Users\\|/Users/[a-z]|\.ts\.net|\b100\.(6[4-9]|[7-9][0-9]|1[01][0-9]|12[0-7])\.[0-9]+\.[0-9]+|ssh-(ed25519|rsa) AAAA|Bearer [A-Za-z0-9._-]{16,}|sk-[A-Za-z0-9]{20,}|__STARNET_API_TOKEN__ *= *"'
+# [A-Za-z]:(\\)+Users also catches JSON-escaped Windows paths (C:\\\\Users) inside data files.
+pattern='[A-Za-z]:(\\)+Users|[A-Za-z]:/Users/|AppData|/Users/[a-z]|\.ts\.net|\b100\.(6[4-9]|[7-9][0-9]|1[01][0-9]|12[0-7])\.[0-9]+\.[0-9]+|ssh-(ed25519|rsa) AAAA|Bearer [A-Za-z0-9._-]{16,}|sk-[A-Za-z0-9]{20,}|__STARNET_API_TOKEN__ *= *"'
 files=$(git diff --cached --name-only --diff-filter=ACM | grep -v "^.githooks/")
 [ -z "$files" ] && exit 0
 hits=$(echo "$files" | xargs grep -nIiE "$pattern" 2>/dev/null)

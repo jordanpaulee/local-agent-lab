@@ -10,6 +10,7 @@ keeps its raw data, and separates what was confirmed from what was inferred.
 | Date | Type | Finding |
 |---|---|---|
 | 2026-10-03 | experiment | [ROCm prefills 2.6× faster than Vulkan on an RX 9070 XT; decode is a tie](experiments/2026-10-03-rx9070xt-rocm-vs-vulkan/) |
+| 2026-10-04 | experiment | [Ollama's 4k default context silently truncated StarNet's agent prompt (#20); file-tool use 0/30 → 30/30, fix verified in v0.13.0](experiments/2026-10-03-starnet-qwen3-8b-context-length/) |
 | 2026-10-03 | investigation | [A Windows-only StarNet test failure was a libuv bug in Node 22.12–22.16](investigations/2026-10-03-node22-libuv-stat-dev/) |
 
 ## Layout
